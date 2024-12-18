@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "library_management",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "test": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "library_management_test",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "library_management_prod",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}
