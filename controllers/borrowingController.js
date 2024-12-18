@@ -1,7 +1,7 @@
 const Book = require('../models/book');
 const User = require('../models/user');
 const Borrowing = require('../models/borrowing');
-const { sequelize } = require('../config/database');
+const sequelize = require('../config/database');
 
 exports.borrowBook = async (req, res) => {
   const transaction = await sequelize.transaction();
