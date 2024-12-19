@@ -4,10 +4,11 @@ require('dotenv').config();
 const sequelize = new Sequelize(
   process.env.PGDATABASE, 
   process.env.PGUSER, 
-  process.env.PGPASSWORD, 
+  process.env.PGPASSWORD,
   {
     host: process.env.PGHOST,
     dialect: 'postgres',
+    dialectModule: require('pg'),
     logging: false,
     timezone: '+07:00',
     pool: {
