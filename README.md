@@ -36,4 +36,4 @@ This is a final project for the Celerates Acceleration Mastery Program: Full Sta
    npm run dev
    ```
 # 🚨 Notes!!
-To run this project, you will need to add your environment variables to your .env file in backend folder.
+To run this project, you will need to add your environment variables to your .env file in root folder.
