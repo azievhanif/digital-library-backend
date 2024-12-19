@@ -9,15 +9,14 @@ const sequelize = new Sequelize(
     host: process.env.PGHOST,
     dialect: 'postgres',
     dialectModule: require('pg'),
-    logging: false,
-    timezone: '+07:00',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
+    dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
     }
-  }
+    },
+    logging: false
+  }  
 );
 
 module.exports = sequelize;
