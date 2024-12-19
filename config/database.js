@@ -2,11 +2,11 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME, 
-  process.env.DB_USER, 
-  process.env.DB_PASSWORD, 
+  process.env.PGDATABASE, 
+  process.env.PGUSER, 
+  process.env.PGPASSWORD, 
   {
-    host: process.env.DB_HOST,
+    host: process.env.PGHOST,
     dialect: 'postgres',
     logging: false,
     timezone: '+07:00',
