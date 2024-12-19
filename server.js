@@ -15,6 +15,7 @@ const borrowingRoutes = require('./routes/borrowingRoutes');
 
 const app = express();
 const port = process.env.PORT || 3001;
+const jwtSecret = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
