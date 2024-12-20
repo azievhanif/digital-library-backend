@@ -10,20 +10,17 @@ exports.borrowBook = async (req, res) => {
     const { bookId } = req.body;
     const userId = req.user.id;
 
-    // Cek apakah buku tersedia
     const book = await Book.findByPk(bookId, { transaction });
     if (!book) {
       await transaction.rollback();
       return res.status(404).json({ message: 'Buku tidak ditemukan' });
     }
 
-    // Cek status buku
     if (book.status !== 'available') {
       await transaction.rollback();
       return res.status(400).json({ message: 'Buku sudah dipinjam' });
     }
 
-    // Cek jumlah buku yang sedang dipinjam oleh user
     const activeBorrowings = await Borrowing.count({
       where: { 
         userId, 
@@ -32,13 +29,11 @@ exports.borrowBook = async (req, res) => {
       transaction
     });
 
-    // Batasi peminjaman maksimal 3 buku
     if (activeBorrowings >= 3) {
       await transaction.rollback();
       return res.status(400).json({ message: 'Anda sudah meminjam 3 buku' });
     }
 
-    // Buat transaksi peminjaman
     const borrowing = await Borrowing.create({
       userId,
       bookId,
@@ -46,10 +41,8 @@ exports.borrowBook = async (req, res) => {
       status: 'active'
     }, { transaction });
 
-    // Update status buku
     await book.update({ status: 'borrowed' }, { transaction });
 
-    // Commit transaksi
     await transaction.commit();
 
     res.status(201).json({
@@ -76,7 +69,6 @@ exports.returnBook = async (req, res) => {
     const { borrowingId } = req.body;
     const userId = req.user.id;
 
-    // Cari transaksi peminjaman
     const borrowing = await Borrowing.findOne({
       where: { 
         id: borrowingId, 
@@ -92,19 +84,16 @@ exports.returnBook = async (req, res) => {
       return res.status(404).json({ message: 'Peminjaman tidak ditemukan' });
     }
 
-    // Update status peminjaman
     await borrowing.update({
       returnDate: new Date(),
       status: 'returned'
     }, { transaction });
 
-    // Kembalikan status buku
     await borrowing.Book.update(
       { status: 'available' }, 
       { transaction }
     );
 
-    // Commit transaksi
     await transaction.commit();
 
     res.status(200).json({

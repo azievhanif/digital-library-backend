@@ -3,12 +3,10 @@ const cors = require('cors');
 const sequelize = require('./config/database');
 const logger = require('./config/logger');
 
-// Import models
 const User = require('./models/user');
 const Book = require('./models/book');
 const Borrowing = require('./models/borrowing');
 
-// Import routes
 const userRoutes = require('./routes/userRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const borrowingRoutes = require('./routes/borrowingRoutes');
@@ -17,17 +15,14 @@ const app = express();
 const port = process.env.PORT || 3001;
 const jwtSecret = process.env.JWT_SECRET;
 
-// Middleware
 app.use(cors());
 app.use(logger);
 app.use(express.json());
 
-// Routes
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/books', bookRoutes);
 app.use('/api/v1/borrowings', borrowingRoutes);
 
-// Root endpoint
 app.get('/', (req, res) => {
   res.send({
     message: 'Hi! 👋',
@@ -35,7 +30,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ 
@@ -43,7 +37,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Database sync function
 const syncDatabase = async () => {
   try {
     await sequelize.sync({ alter: true });
@@ -54,17 +47,13 @@ const syncDatabase = async () => {
   }
 };
 
-// Start server function
 const startServer = async () => {
   try {
-    // Authenticate database connection
     await sequelize.authenticate();
     console.log('Koneksi database berhasil');
     
-    // Sync database
     await syncDatabase();
     
-    // Start server
     app.listen(port, () => {
       console.log(`Server berjalan di port ${port}`);
     });
@@ -74,7 +63,6 @@ const startServer = async () => {
   }
 };
 
-// Start the server
 startServer();
 
 module.exports = app;
